@@ -1,0 +1,10 @@
+# examples of derivatives in sagemath
+print(derivative(x^2))
+
+print(derivative(2*x^3))
+
+print(derivative(1 / (x)))
+
+print(derivative(1 / (x + 1)^2))
+
+# fairly straight forward usage, although manual double checking may be required in some situations.
