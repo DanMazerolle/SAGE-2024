@@ -1,61 +1,44 @@
-#constants 
-G = 9.80665 #acceleration due to gravity
-H = 25 #height in m 
-v0 = 300 #Muzzles inital velocity fired from the artillery
-ANGLEdeg = Integer(30)
-ANGLErad = ANGLEdeg * pi / 180
+# Constants
+G = 9.80665  # acceleration due to gravity (m/s^2)
+H = 25       # initial height (m)
+V0 = 300     # muzzle's initial velocity (m/s)
+ANGLEdeg = 30  # angle in degrees
+ANGLErad = ANGLEdeg * pi / 180  # Convert angle to radians
 
-#vertical of horizontal velocity components 
-v0_y = v0 * sin(ANGLErad)
-v0_x = v0 * cos(ANGLErad)
+# Vertical and horizontal velocity components
+v0_y = V0 * cos(ANGLErad)  # Initial vertical velocity component
+v0_x = V0 * sin(ANGLErad)  # Initial horizontal velocity component
 
-#acceleration function
-a_t = G
-
-#define time var
+# Define time variable
 t = var('t')
 
-#integration to find v(t) 
-v_t = integrate(a_t, t)
+# Define the vertical position equation: y(t) = -4.90332t^2 + 259.807t + 25
+y_t = -4.90332 * t^2 + 259.807 * t + 25
 
-#solve for c
-C = v0_y
+# Solve for time when projectile hits the ground (y(t) = 0)
+solutions = solve(y_t == 0, t)
 
-#final velocity is
-v_t_final = v_t + C
+# Convert solutions to numerical values
+numeric_solutions = [sol.rhs().n() for sol in solutions]  # .rhs() gives the right side, .n() evaluates numerically
 
-#integrate velocity to find y(t)
-y_t = integrate(v_t_final, t) + var('C1')
+# Extract the positive solution (time cannot be negative)
+positive_solutions = [sol for sol in numeric_solutions if sol > 0]
 
-#solve c1
-C1 = H
+# Ensure that there is at least one positive solution
+if positive_solutions:
+    time_of_flight = max(positive_solutions)
+    
+    # Horizontal velocity (constant)
+    horizontal_velocity = v0_x
 
-#preform checks to ensure correct
-y_prime = diff(y_t, t)
-check_v = y_prime == v_t_final 
+    # Calculate the range (horizontal velocity * time of flight)
+    range_of_projectile = horizontal_velocity * time_of_flight
 
-y_double_prime = diff(y_prime, t)
-check_a = y_double_prime == a_t
+    # Round the result to the nearest hundred meters
+    range_of_projectile_rounded = round(range_of_projectile, -2)
 
-y_at_0 = y_t.subs(t == 0)  # Using `.subs()` to substitute t = 0
-check_y_0 = (y_at_0 == 25)  # Check that y(0) = 25
-
-v_at_0 = v_t_final.subs(t == 0)  # v(0)
-check_v_0 = v_at_0 == 259.807  # Direct comparison
-
-#verify results, each should = 0
-print(check_v, check_a, check_y_0, check_v_0)
-
-# Quadratic equation to find when the projectile hits the ground
-quadratic_eq = 4.90332 * t^2 + 259.807 * t + 25  # y(t) = 0
-
-# Solve the quadratic equation (y(t) = 0) for time of flight
-solutions = solve(quadratic_eq == 0, t)
-time_of_flight = max(solutions)
-
-horizontal_velocity = v0_x 
-range_of_projectile = horizontal_velocity * time_of_flight
-range_of_projectile_rounded = round(range_of_projectile, -2)
-
-
-print(f"the time of flight is{time_of_flight} and the range of projectile is {range_of_projectile_rounded}")
+    # Output the results
+    print(f"Time of flight: {time_of_flight} seconds")
+    print(f"Range of projectile: {range_of_projectile_rounded} meters")
+else:
+    print("No positive time solution found.")
