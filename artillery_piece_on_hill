@@ -36,4 +36,23 @@ check_v = y_prime == v_t_final
 y_double_prime = diff(y_prime, t)
 check_a = y_double_prime == a_t
 
+y_at_0 = y_t.subs(t == 0)  # Using `.subs()` to substitute t = 0
+check_y_0 = (y_at_0 == 25)  # Check that y(0) = 25
 
+v_at_0 = v_t_final.subs(t == 0)  # v(0)
+check_v_0 = v_at_0 == 259.807  # Direct comparison
+
+#verify results, each should = 0
+print(check_v, check_a, check_y_0, check_v_0)
+
+# Quadratic equation to find when the projectile hits the ground
+quadratic_eq = 4.90332 * t^2 + 259.807 * t + 25  # y(t) = 0
+
+# Solve the quadratic equation (y(t) = 0) for time of flight
+solutions = solve(quadratic_eq == 0, t)
+time_of_flight = max(solutions)
+
+horizontal_velocity = v0_x 
+range_of_projectile = horizontal_velocity * time_of_flight
+
+print(f"the time of flight is{time_of_flight} and the range of projectile is {range_of_projectile}")
