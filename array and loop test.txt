@@ -1,0 +1,11 @@
+posarray = [47, 54, 92]
+for i in range(0, len(posarray)):
+    print(posarray[i])
+
+# result is:
+# 47
+# 54
+# 92
+
+# with this, We can use both arrays, and range loops in sage cell.
+# We can use this to our advantage for coordinate problems like in the second example!
