@@ -55,5 +55,7 @@ time_of_flight = max(solutions)
 
 horizontal_velocity = v0_x 
 range_of_projectile = horizontal_velocity * time_of_flight
+range_of_projectile_rounded = round(range_of_projectile, -2)
 
-print(f"the time of flight is{time_of_flight} and the range of projectile is {range_of_projectile}")
+
+print(f"the time of flight is{time_of_flight} and the range of projectile is {range_of_projectile_rounded}")
