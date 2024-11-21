@@ -1,0 +1,7 @@
+# we can define our own functions using sagecell
+v(t) = -9.18*t
+
+print(v(5))
+
+#Result is -45.9
+# we can use this in our calculations when doing things like quadratic formulas
