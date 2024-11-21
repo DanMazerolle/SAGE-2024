@@ -1,0 +1,12 @@
+# Trig calculation examples
+# functions like cos work in sagemath, however they require a bit of tinkering to work with radians.
+# the function gp(pi) gives us a 32 bit representation of pi, which we will need to convert our result to radians
+# to use cos properly for these kinds of equations, we need to take our input and divide it by 360, which itself is divided by pi.
+
+x = cos(30 / (360 / (2 * gp(pi))))
+
+# we can then print out our example, in this case we want to multiply it by the muzzle velocity of 300 m/s
+
+print(x*300)
+
+# result is 259.80762113533159402911695122588085504, matches with our notes
