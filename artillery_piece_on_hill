@@ -1,1 +1,39 @@
 #constants 
+G = 9.80665 #acceleration due to gravity
+H = 25 #height in m 
+V0 = 300 #Muzzles inital velocity fired from the artillery
+ANGLErad = radians(30)
+
+#vertical of horizontal velocity components 
+v0_y = V0 * sin(ANGLErad)
+v0_x = v0 * cos(ANGLErad)
+
+#acceleration function
+a_t = G
+
+#define time var
+t = var('t')
+
+#integration to find v(t) 
+v_t = integrate(a_t, t)
+
+#solve for c
+C = v0_y
+
+#final velocity is
+v_t_final = v_t + C
+
+#integrate velocity to find y(t)
+y_t = integrate(v_t_final, t) + var('C1')
+
+#solve c1
+C1 = H
+
+#preform checks to ensure correct
+y_prime = diff(y_t, t)
+check_v = y_prime == v_t_final 
+
+y_double_prime = diff(y_prime, t)
+check_a = y_double_prime == a_t
+
+
