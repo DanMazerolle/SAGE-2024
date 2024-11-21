@@ -1,0 +1,50 @@
+posarray = [12000, 5000, 7000]
+velarray = [-60, -240, 80]
+#[x, y, z]
+
+#Step 1/2
+#EF = ma(t)
+#-mg = ma(t)
+#-g = a(t)
+accY = -9.80665
+#We dont know C for now, but we will later. use it as a variable in our function.
+
+#v(t, C) = (-9.80665 * t) + C
+
+#step 3
+#we need vertical componet of the velocity, or the y comp.
+velY = velarray[1] # get y comp of velocity
+posY = posarray[1]
+#v(1, varC)
+
+y(t) = ((1/2)*accY*t^2) + (velY * t) + posY
+print(derivative(y(t))) # matches notes
+print(derivative(derivative(y(t))))
+print(y(0))
+ydelta(t) = (accY*t) + velY
+print(ydelta(0))
+
+a = 1/2 * accY
+
+squarefunc = sqrt((velY^2) - (4 * a * posY))
+print((squarefunc / 2*a))
+
+quadA = (-velY + squarefunc) / accY
+quadB = (-velY - squarefunc) / accY
+
+print("looking for 15.7593")
+print(quadA)
+print(quadB)
+#quad b is correct!
+
+impactx = velarray[0] * quadB
+impactz = velarray[2] * quadB
+
+finalx = impactx + posarray[0]
+finalz = impactz + posarray[2]
+
+#impacty is at 0
+print("The impact will be at:")
+print("X: " + str(finalx) )
+print("Y: 0")
+print("Z: " + str(finalz) )
