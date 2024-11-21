@@ -2,7 +2,8 @@
 G = 9.80665 #acceleration due to gravity
 H = 25 #height in m 
 V0 = 300 #Muzzles inital velocity fired from the artillery
-ANGLErad = radians(30)
+ANGLEdeg = Integer(30)
+ANGLErad = ANGLEdeg * pi / 180
 
 #vertical of horizontal velocity components 
 v0_y = V0 * sin(ANGLErad)
