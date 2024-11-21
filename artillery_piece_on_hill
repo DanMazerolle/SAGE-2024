@@ -19,9 +19,9 @@ y_t = -4.90332 * t^2 + 259.807 * t + 25
 solutions = solve(y_t == 0, t)
 
 # Convert solutions to numerical values
-numeric_solutions = [sol.rhs().n() for sol in solutions]  # .rhs() gives the right side, .n() evaluates numerically
+numeric_solutions = [sol.rhs().n() for sol in solutions]  # .rhs gets the right hand side(solutions) of equation
 
-# Extract the positive solution (time cannot be negative)
+# Get positive solution (time cannot be negative)
 positive_solutions = [sol for sol in numeric_solutions if sol > 0]
 
 # Ensure that there is at least one positive solution
