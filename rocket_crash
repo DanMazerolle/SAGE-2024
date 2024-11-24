@@ -1,0 +1,19 @@
+# Constants
+t_init = 11 # time of flight before malfunction.
+m_init = 107000 # mass of the rocket at launch, in kilograms.
+n_init = 1270000 # force of the upward thrust of the rocket before the malfunction, 1.27 meganewtons => 127000 newtons.
+g = 9.80665 # constant of gravity, m/s^2
+y_init = 0 # initial height of the rocket
+
+a_init = 1270000 / 107000 # Calculate the inital acceleration of the rocket, in m/s^2. = 1.18691588785047
+a_init = a_init.n() # convert to numeric value
+
+a_launch = a_init - g # account for gravity to get our total launch acceleration
+print("The acceleration of the rocket before the malfunction was: ", str(a_launch), "m/s^2.")
+
+vf_launch = 0 + a_launch * 11 # get the final velocity of the rocket before the malfunction occurs
+print("The finalvelocity of the rocket before the malfunction was: ", str(vf_launch),"m/s.")
+
+
+posY_premalfunc = 1/2 * (0 + vf_launch) * 11
+print("The highest the rocket got before the malfunction was: ", str(posY_premalfunc), "m off the ground.")
