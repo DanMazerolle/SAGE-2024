@@ -34,7 +34,7 @@ print("Time of Impact:", t_impact, "seconds")
 
 # Plot Altitude
 altitude_pre = plot(0.5 * a_launch * t^2, (t, 0, t_init), color='blue', legend_label='Pre-Malfunction')
-altitude_post = plot(y_post, (t, t_init, t_impact), color='red', legend_label='Post-Malfunction')
+altitude_post = plot(-y_post, (t, t_init, t_impact), color='red', legend_label='Post-Malfunction')
 
 altitude_plot = altitude_pre + altitude_post
 altitude_plot.axes_labels(['Time (s)', 'Altitude (m)'])
