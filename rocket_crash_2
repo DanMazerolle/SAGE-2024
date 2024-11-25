@@ -1,0 +1,44 @@
+# Constants
+t_init = 11 # time of flight before malfunction.
+m_init = 107000 # mass of the rocket at launch, in kilograms.
+n_init = 1.27e6 # force of the upward thrust of the rocket before the malfunction, 1.27 meganewtons => 127000 newtons.
+g = 9.80665 # constant of gravity, m/s^2
+y_init = 0 # initial height of the rocket
+v_init = 0 #initial velocity
+t = var('t')
+
+a_launch = (n_init - m_init * g) / m_init # Calculate the inital acceleration of the rocket, in m/s^2. = 1.18691588785047
+
+# account for gravity to get our total launch acceleration
+print("The acceleration of the rocket before the malfunction was: ", str(a_launch), "m/s^2.")
+
+vf_launch(time) = v_init + a_launch * time # get the final velocity of the rocket before the malfunction occurs
+print("The finalvelocity of the rocket before the malfunction was: ", str(vf_launch(t_init)), "m/s.")
+
+
+posY_premalfunc(time) = 0.5 * (a_launch) * time^2
+print("The highest the rocket got before the malfunction was: ", str(posY_premalfunc(t_init)), "m off the ground.")
+
+f_t = 1.27 * exp((t - t_init) / 2) * 10^6  # Thrust after malfunction in N
+a_post = f_t / m_init - g
+v_post = integral(a_post, t) + (vf_launch)  # Initial velocity at t = t_init
+y_post = integral(v_post, t) + posY_premalfunc  # Initial altitude is posY_premalfunc
+
+# Post-Malfunction Functions
+t = var('t')
+f_t = 1.27e6 * exp((t - t_init) / 2)  # Thrust after malfunction, N
+a_post = f_t / m_init - g
+v_post = integral(a_post, t) + vf_launch(v_init)  # Velocity function
+y_post = integral(v_post, t) + posY_premalfunc(v_init)   # Position function
+
+# Time of Impact
+t_impact = find_root(y_post, t_init, 100)  # Solve y_post = 0
+print("Time of Impact:", t_impact, "seconds")
+
+# Plot Altitude
+altitude_pre = plot(0.5 * a_launch * t^2, (t, 0, t_init), color='blue', legend_label='Pre-Malfunction')
+altitude_post = plot(-y_post, (t, t_init, t_impact), color='red', legend_label='Post-Malfunction')
+
+altitude_plot = altitude_pre + altitude_post
+altitude_plot.axes_labels(['Time (s)', 'Altitude (m)'])
+altitude_plot.show(title="Rocket Altitude from Launch to Impact")
