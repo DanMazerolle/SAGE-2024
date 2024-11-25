@@ -27,7 +27,7 @@ y_post = integral(v_post, t) + posY_premalfunc  # Initial altitude is posY_prema
 
 # Post-Malfunction Functions
 t = var('t')
-f_t = 1.27e6 * exp((t - t_init) / 2)  # Thrust after malfunction, N
+f_t = 1.27e6 * exp((t - t_init) / 2)  # Thrust after malfunction
 a_post = f_t / m_init - g
 v_post = integral(a_post, t) + vf_launch  # Velocity function
 y_post = integral(v_post, t) + posY_premalfunc  # Position function
