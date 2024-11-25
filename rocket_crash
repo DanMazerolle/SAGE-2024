@@ -22,20 +22,24 @@ print("The highest the rocket got before the malfunction was: ", str(posY_premal
 
 
 # Post-Malfunction Functions
-t = var('t')
-f_t = 1.27e6 * exp((t - t_init) / 2)  # Thrust after malfunction
-a_post = f_t / m_init - g
-v_post = integral(a_post, t) + vf_launch  # Velocity function
-y_post = integral(v_post, t) + posY_premalfunc  # Position function
+f_t = 1270000 * e**((t - t_init) / 2)  # Thrust after malfunction
+a_post = f_t / m_init - g  # Acceleration after malfunction
+v_post = integral(a_post, t) + vf_launch  # Velocity function after malfunction
+
+# Ensure continuity at t_init for the position function
+y_post_temp = integral(v_post, t)  # Temporary position function
+C = posY_premalfunc - y_post_temp.substitute(t=t_init)  # Solve for integration constant
+y_post = y_post_temp + C  # Final position function after malfunction
 
 # Time of Impact
-t_impact = find_root(y_post, t_init, 100)  # Solve y_post = 0
-print("Time of Impact:", t_impact, "seconds")
+t_impact = find_root(y_post, t_init, 100)  # Solve y_post = 0 for t_impact
+print(f"The time of impact is approximately: {t_impact} seconds.")
 
-# Plot Altitude
+#Plot Altitude
 altitude_pre = plot(0.5 * a_launch * t^2, (t, 0, t_init), color='blue', legend_label='Pre-Malfunction')
-altitude_post = plot(-y_post, (t, t_init, t_impact), color='red', legend_label='Post-Malfunction')
+altitude_post = plot(y_post, (t, t_init, t_impact), color='red', legend_label='Post-Malfunction', plot_points=500)
 
 altitude_plot = altitude_pre + altitude_post
 altitude_plot.axes_labels(['Time (s)', 'Altitude (m)'])
 altitude_plot.show(title="Rocket Altitude from Launch to Impact")
+
