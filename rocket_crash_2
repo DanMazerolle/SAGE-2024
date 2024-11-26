@@ -32,8 +32,7 @@ v_post = integral(a_post, t) + vf_launch  # Velocity function after malfunction
 
 
 # Ensure continuity at t_init for the position function
-y_post_temp = v_post# Temporary position function
-#y_post_temp = integral(v_post, t)  # Temporary position function
+y_post_temp = integral(v_post, t)  # Temporary position function
 print(y_post_temp)
 print("bingus")
 C = posY_premalfunc - y_post_temp.substitute(t=t_init)  # Solve for integration constant
@@ -47,11 +46,11 @@ print(f"The time of impact is approximately: {t_impact} seconds.")
 
 #Plot Altitude
 altitude_pre = plot(0.5 * a_launch * t^2, (t, 0, t_init), color='blue', legend_label='Pre-Malfunction')
-altitude_post = plot(-y_post - posY_premalfunc + 2, (t, t_init, t_impact), color='red', legend_label='Post-Malfunction', plot_points=500)
+altitude_post = plot(-y_post - 592, (t, t_init, t_impact), color='red', legend_label='Post-Malfunction', plot_points=500)
 
 altitude_plot = altitude_pre + altitude_post
 altitude_plot.axes_labels(['Time (s)', 'Altitude (m)'])
-altitude_plot.show(title="Rocket Altitude from Launch to Impact")
+altitude_plot.show(title="Rocket Altitude from Launch to Impact", ymin = 0)
 
 #Plot velocity
 velocity_pre = plot(a_launch * t, (t, 0 , t_init), color='blue', legend_label='Pre-Malfunction')
@@ -59,4 +58,4 @@ velocity_post = plot(-integral(a_post, t) - 2.7*vf_launch, (t, t_init, t_impact)
 
 velocity_plot = velocity_pre + velocity_post
 velocity_plot.axes_labels(['Time (s)', 'Velocity (m/s)'])
-velocity_plot.show(title="Rocket velocity from Launch to Impact")
+velocity_plot.show(title="Rocket velocity from Launch to Impact", ymin=-60)
