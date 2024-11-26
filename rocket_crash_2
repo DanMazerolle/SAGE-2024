@@ -1,4 +1,4 @@
-# Constants
+#constants
 t_init = 11 # time of flight before malfunction.
 m_init = 107000 # mass of the rocket at launch, in kilograms.
 n_init = 1270000 # force of the upward thrust of the rocket before the malfunction, 1.27 meganewtons => 127000 newtons.
@@ -52,3 +52,11 @@ altitude_post = plot(-y_post - posY_premalfunc + 2, (t, t_init, t_impact), color
 altitude_plot = altitude_pre + altitude_post
 altitude_plot.axes_labels(['Time (s)', 'Altitude (m)'])
 altitude_plot.show(title="Rocket Altitude from Launch to Impact")
+
+#Plot velocity
+velocity_pre = plot(a_launch * t, (t, 0 , t_init), color='blue', legend_label='Pre-Malfunction')
+velocity_post = plot(-integral(a_post, t) - 2.7*vf_launch, (t, t_init, t_impact), color='red', legend_label='Post-Malfunction', plot_points=2)
+
+velocity_plot = velocity_pre + velocity_post
+velocity_plot.axes_labels(['Time (s)', 'Velocity (m/s)'])
+velocity_plot.show(title="Rocket velocity from Launch to Impact")
