@@ -23,22 +23,14 @@ print("The highest the rocket got before the malfunction was: ", str(posY_premal
 
 # Post-Malfunction Functions
 f_t = 1270000 * ( e**((t - t_init) / 2))  # Thrust after malfunction
-print(f_t)
 a_post = (f_t - (m_init * g)) / m_init  # Acceleration after malfunction
-#a_post = f_t / m_init - g  # Acceleration after malfunction
-print("a post")
-print(a_post)
 v_post = integral(a_post, t) + vf_launch  # Velocity function after malfunction
 
 
 # Ensure continuity at t_init for the position function
 y_post_temp = integral(v_post, t)  # Temporary position function
-print(y_post_temp)
-print("bingus")
 C = posY_premalfunc - y_post_temp.substitute(t=t_init)  # Solve for integration constant
-y_post = y_post_temp - C  # Final position function after malfunction
-#y_post = y_post_temp + C  # Final position function after malfunction
-print(y_post)
+y_post(t) = y_post_temp - C  # Final position function after malfunction
 
 # Time of Impact
 t_impact = find_root(y_post, t_init, 100)  # Solve y_post = 0 for t_impact
@@ -59,3 +51,12 @@ velocity_post = plot(-integral(a_post, t) - 2.7*vf_launch, (t, t_init, t_impact)
 velocity_plot = velocity_pre + velocity_post
 velocity_plot.axes_labels(['Time (s)', 'Velocity (m/s)'])
 velocity_plot.show(title="Rocket velocity from Launch to Impact", ymin=-60)
+
+# maximum height function
+maxpos(t) = -y_post - 592
+curmax = posY_premalfunc
+for i in range(t_init, int(t_impact)):
+    tempmax = maxpos(i)
+    if tempmax > curmax:
+        curmax = tempmax
+print("The maximum height the rocket achieved was ", str(curmax.n()),"m off the ground.")
